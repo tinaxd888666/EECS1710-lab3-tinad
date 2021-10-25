@@ -1,12 +1,12 @@
 int backgroundColor = 244;
-int snakeLength = 2;    //Initial length of snake
-int snakeHeadX;         //head(x,y)
+int snakeLength = 2;    
+int snakeHeadX;         
 int snakeHeadY;
-char snakeDirection = 'R';  //UP/DOWN/LEFT/RIGHT
+char snakeDirection = 'R'; 
 char snakeDirectionTemp;
-int pause = 0;              //use for pause
+int pause = 0;             
 
-int w=20;   //SnakeHead's Food's and oneStep's length(pix)
+int w=20;   
 
 int maxSnakeLength = 400;
 int[] x = new int [maxSnakeLength];
@@ -30,7 +30,7 @@ void setup(){
     savedTime = millis(); 
 }
 
-int speed = 5;  //范围1~20比较好些，每秒移动的步数
+int speed = 5;  
 
 void draw(){
     totalTime = 1000/speed; 
@@ -38,7 +38,7 @@ void draw(){
 
     if ( snakeDirection!='P' && passedTime > totalTime ) {
         if(isGameOver() ){
-            speed = 5;  //set the orogin speed
+            speed = 5;  
             return;
         }
 
@@ -60,36 +60,31 @@ void draw(){
 
         }
 
-        //add another food
+       
         drawFood(width,height);
 
-        //eat it
+       
         if( snakeHeadX == foodX && snakeHeadY == foodY){
             snakeLength++;
-            //set the speed
+            
             speed ++;
-            speed = min(15,speed);  //speed's max value is 15
+            speed = min(15,speed);  
             foodKey = true;
         }
-
-        //store snake body
         for(int i=snakeLength-1; i>0; i--){
             x[i] = x[i-1];
             y[i] = y[i-1];
         }
 
-        //store snake new head
         y[0] = snakeHeadY;
         x[0] = snakeHeadX;
 
-        stroke(0);  //Black
-        strokeWeight(1);    //线宽为1
+        stroke(0);  
+        strokeWeight(1);   
 
-        //draw snakeHead
         fill(#ED1818);
         rect(x[0],y[0],w,w);
 
-        //draw snakeBody
         fill(#7B6DB7);
         for(int i=1; i<snakeLength; i++){
             rect(x[i],y[i],w,w);
@@ -99,12 +94,10 @@ void draw(){
             return;
         }
 
-        savedTime = millis(); //passedTime=millis()-savedTime
+        savedTime = millis();
     }
 
-}//end draw()
-
-//keyboard interrupt
+}
 void keyPressed() {
     if(key == 'p' || key == 'P'){
         pause++;
@@ -153,7 +146,7 @@ void keyPressed() {
     }else{
         ;
     }
-}   //end keyPressed()
+}   
 
 void snakeInit(){
     background(backgroundColor);
@@ -182,13 +175,12 @@ boolean isGameOver(){
 }
 
 boolean isSnakeDie(){
-    //hitting the wall
+    
     if(snakeHeadX<0 || snakeHeadX>=width || snakeHeadY<0 || snakeHeadY>=height){
         showGameOver();
         return true;
     }
 
-    //eat itself
     if(snakeLength>2){
         for(int i=1; i<snakeLength; i++){
             if(snakeHeadX==x[i] && snakeHeadY == y[i]){
@@ -206,10 +198,10 @@ void showGameOver(){
     gameOverKey = true;
     bestScore = bestScore > snakeLength ? bestScore : snakeLength;
 
-    background(0);  //black
+    background(0); 
     translate(width/2, height/2 - 50);
-    fill(255);  //white
-    textAlign(CENTER);  //居中对齐
+    fill(255); 
+    textAlign(CENTER);  
     textSize(84);
     text(snakeLength + "/" + bestScore, 0, 0);
 
